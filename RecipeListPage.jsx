@@ -1,41 +1,33 @@
-import React, { useState } from 'react';
+import React from "react";
+import { Box, Heading, Image, List, ListItem, Text, Button } from "@chakra-ui/react";
 
 function RecipeListPage({ recipes, onSelect }) {
-  const [searchTerm, setSearchTerm] = useState('');
-
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value.toLowerCase());
-  };
-
-  const filteredRecipes = recipes.filter(recipe =>
-    recipe.recipe.label.toLowerCase().includes(searchTerm) ||
-    recipe.recipe.healthLabels.some(label => label.toLowerCase().includes(searchTerm))
-  );
-
   return (
-    <div>
-      <h1>Recipe List</h1>
-      <input
-        type="text"
-        placeholder="Search by name or label"
-        value={searchTerm}
-        onChange={handleSearch}
-      />
-      <ul>
-        {filteredRecipes.map((item) => (
-          <li key={item.recipe.label} onClick={() => onSelect(item.recipe)}>
-            <h2>{item.recipe.label}</h2>
-            <img src={item.recipe.image} alt={item.recipe.label} />
-            <p>Diet: {item.recipe.dietLabels.join(', ')}</p>
-            <p>Cautions: {item.recipe.cautions ? item.recipe.cautions.join(', ') : 'None'}</p>
-            <p>Meal Type: {item.recipe.mealType.join(', ')}</p>
-            <p>Dish Type: {item.recipe.dishType.join(', ')}</p>
-            <p>Health Labels: {item.recipe.healthLabels.join(', ')}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <List spacing={5}>
+      {recipes.map((hit, index) => (
+        <ListItem key={index}>
+          <Box borderWidth="1px" borderRadius="lg" overflow="hidden" p={5}>
+            <Image src={hit.recipe.image} alt={hit.recipe.label} />
+            <Heading size="md" mt={4}>
+              {hit.recipe.label}
+            </Heading>
+            {hit.recipe.dietLabels.length > 0 && (
+              <Text>Diet Labels: {hit.recipe.dietLabels.join(", ")}</Text>
+            )}
+            {hit.recipe.cautions.length > 0 && (
+              <Text>Cautions: {hit.recipe.cautions.join(", ")}</Text>
+            )}
+            <Text>Meal Type: {hit.recipe.mealType.join(", ")}</Text>
+            <Text>Dish Type: {hit.recipe.dishType.join(", ")}</Text>
+            <Button mt={4} colorScheme="teal" onClick={() => onSelect(hit.recipe)}>
+              View Recipe
+            </Button>
+          </Box>
+        </ListItem>
+      ))}
+    </List>
   );
 }
 
 export default RecipeListPage;
+
