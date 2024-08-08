@@ -28,6 +28,9 @@ function RecipePage({ recipe, onBack }) {
       <p>Protein: {totalNutrients.PROCNT.quantity} {totalNutrients.PROCNT.unit}</p>
       <p>Cholesterol: {totalNutrients.CHOLE.quantity} {totalNutrients.CHOLE.unit}</p>
       <p>Sodium: {totalNutrients.NA.quantity} {totalNutrients.NA.unit}</p>
+      <h2>Cookies</h2>
+      {/* Display cookies if any */}
+      <p>{cautions && cautions.length > 0 ? `Cookies may contain: ${cautions.join(', ')}` : 'No cookies available'}</p>
     </div>
   );
 }
