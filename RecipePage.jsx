@@ -1,37 +1,42 @@
-import React from 'react';
+import React from "react";
+import { Box, Heading, Image, List, ListItem, Text, Button } from "@chakra-ui/react";
 
 function RecipePage({ recipe, onBack }) {
-  const { label, image, dietLabels, healthLabels, cautions, mealType, dishType, totalTime, ingredients, yield, totalNutrients } = recipe;
-
   return (
-    <div>
-      <button onClick={onBack}>Back to Recipe List</button>
-      <h1>{label}</h1>
-      <img src={image} alt={label} />
-      <p>Meal Type: {mealType.join(', ')}</p>
-      <p>Dish Type: {dishType.join(', ')}</p>
-      <p>Total Cooking Time: {totalTime} minutes</p>
-      <p>Diet Labels: {dietLabels.join(', ')}</p>
-      <p>Health Labels: {healthLabels.join(', ')}</p>
-      <p>Cautions: {cautions ? cautions.join(', ') : 'None'}</p>
-      <h2>Ingredients</h2>
-      <ul>
-        {ingredients.map((ingredient, index) => (
-          <li key={index}>{ingredient}</li>
+    <Box>
+      <Button colorScheme="teal" mb={5} onClick={onBack}>
+        Back to Recipes
+      </Button>
+      <Image src={recipe.image} alt={recipe.label} />
+      <Heading>{recipe.label}</Heading>
+      <Text>Meal Type: {recipe.mealType.join(", ")}</Text>
+      <Text>Dish Type: {recipe.dishType.join(", ")}</Text>
+      <Text>Total Cooking Time: {recipe.totalTime} minutes</Text>
+      <Text>Servings: {recipe.servings}</Text>
+      <Heading size="md" mt={4}>Nutrients:</Heading>
+      <List>
+        {Object.keys(recipe.totalNutrients).map((key) => (
+          <ListItem key={key}>
+            {recipe.totalNutrients[key].label}: {recipe.totalNutrients[key].quantity} {recipe.totalNutrients[key].unit}
+          </ListItem>
         ))}
-      </ul>
-      <p>Servings: {yield}</p>
-      <h2>Total Nutrients</h2>
-      <p>Energy: {totalNutrients.ENERC_KCAL.quantity} {totalNutrients.ENERC_KCAL.unit}</p>
-      <p>Fat: {totalNutrients.FAT.quantity} {totalNutrients.FAT.unit}</p>
-      <p>Carbs: {totalNutrients.CHOCDF.quantity} {totalNutrients.CHOCDF.unit}</p>
-      <p>Protein: {totalNutrients.PROCNT.quantity} {totalNutrients.PROCNT.unit}</p>
-      <p>Cholesterol: {totalNutrients.CHOLE.quantity} {totalNutrients.CHOLE.unit}</p>
-      <p>Sodium: {totalNutrients.NA.quantity} {totalNutrients.NA.unit}</p>
-      <h2>Cookies</h2>
-      {/* Display cookies if any */}
-      <p>{cautions && cautions.length > 0 ? `Cookies may contain: ${cautions.join(', ')}` : 'No cookies available'}</p>
-    </div>
+      </List>
+      <Heading size="md" mt={4}>Ingredients:</Heading>
+      <List>
+        {recipe.ingredients.map((ingredient, index) => (
+          <ListItem key={index}>{ingredient}</ListItem>
+        ))}
+      </List>
+      {recipe.dietLabels.length > 0 && (
+        <Text mt={4}>Diet Labels: {recipe.dietLabels.join(", ")}</Text>
+      )}
+      {recipe.healthLabels.length > 0 && (
+        <Text>Health Labels: {recipe.healthLabels.join(", ")}</Text>
+      )}
+      {recipe.cautions.length > 0 && (
+        <Text>Cautions: {recipe.cautions.join(", ")}</Text>
+      )}
+    </Box>
   );
 }
 
